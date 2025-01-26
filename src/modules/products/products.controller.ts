@@ -49,7 +49,15 @@ export class ProductsController {
   }
 
   @Delete('/:id')
-  delete(@Param('id') id: string) {
-    return this.productsService.delete(+id)
+  async delete(@Param('id') id: string) {
+    try {
+      const product = await this.productsService.delete(+id)
+      return new ResponseData(product, HttpStatus.OK, HttpMessage.SUCCESS)
+    } catch (error) {
+      if (error instanceof HttpException) {
+        return new ResponseData(null, error.getStatus(), error.message)
+      }
+      return new ResponseData(null, HttpStatus.INTERNAL_SERVER_ERROR, HttpMessage.ERROR)
+    }
   }
 }

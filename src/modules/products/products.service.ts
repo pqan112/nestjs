@@ -38,6 +38,9 @@ export class ProductsService {
 
   async delete(id: number) {
     const product = await this.productRepository.findOneBy({ id })
+    if (!product) {
+      throw new HttpException(`Product with id ${id} not found`, HttpStatus.NOT_FOUND)
+    }
     await this.productRepository.delete(id)
     return product
   }
