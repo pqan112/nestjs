@@ -1,20 +1,9 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  HttpException,
-  HttpStatus,
-  Param,
-  Patch,
-  Post,
-  ValidationPipe
-} from '@nestjs/common'
-import { ProductsService } from './products.service'
+import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Patch, Post } from '@nestjs/common'
 import Product from 'src/entities/product.entity'
+import ResponseData from 'src/global/response-data'
+import { HttpMessage } from 'src/global/response.enum'
 import CreateProductDto from './dto/create.dto'
-import ResponseData from 'src/global/Response'
-import { HttpMessage } from 'src/global/Response.enum'
+import { ProductsService } from './products.service'
 
 @Controller('products')
 export class ProductsController {
@@ -39,7 +28,7 @@ export class ProductsController {
   }
 
   @Post()
-  create(@Body(new ValidationPipe()) body: CreateProductDto) {
+  create(@Body() body: CreateProductDto) {
     return this.productsService.create(body)
   }
 

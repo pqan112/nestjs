@@ -11,7 +11,7 @@ export default class Product {
   @Column('decimal')
   price: number
 
-  @Column({ default: '' })
+  @Column()
   description: string
 
   @Column()

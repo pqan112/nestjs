@@ -2,6 +2,7 @@ import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common'
 import { REPOSITORIES } from 'src/constants'
 import Product from 'src/entities/product.entity'
 import { Repository } from 'typeorm'
+import CreateProductDto from './dto/create.dto'
 
 @Injectable()
 export class ProductsService {
@@ -23,7 +24,11 @@ export class ProductsService {
     return product
   }
 
-  create(productData: Partial<Product>): Promise<Product> {
+  create(body: CreateProductDto): Promise<Product> {
+    const productData: CreateProductDto = {
+      ...body,
+      description: body.description || ''
+    }
     const product = this.productRepository.create(productData)
     product.created_at = new Date()
     product.updated_at = new Date()
