@@ -6,7 +6,7 @@ import User from 'src/entities/user.entity'
 @Injectable()
 export class AuthService {
   constructor(private readonly jwtService: JwtService) {}
-
+  // login
   login(user: User) {
     const payload = { email: user.email, sub: user.id }
     const { password, ...userInfo } = user
