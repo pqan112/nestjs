@@ -14,6 +14,9 @@ export default class User {
   @Column()
   password: string
 
+  @Column({ nullable: true })
+  refresh_token?: string
+
   @Column()
   created_at: Date
 

@@ -33,4 +33,26 @@ export class UsersService {
     if (status) return user
     return null
   }
+
+  async saveRefreshToken(refreshToken: string, userId: number) {
+    const user = await this.userRepository.findOneBy({ id: userId })
+    const hashedRefreshToken = hashPassword(refreshToken)
+    if (user) {
+      user.refresh_token = hashedRefreshToken
+      return this.userRepository.save(user)
+    }
+    return null
+  }
+
+  async verifyRefreshToken(refreshToken: string, userId: number) {
+    const user = await this.userRepository.findOneBy({ id: userId })
+    if (user) {
+      const status = comparePassword(refreshToken, user.refresh_token as string)
+
+      if (status) {
+        return user
+      }
+    }
+    return null
+  }
 }

@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common'
+import { HttpException, HttpStatus, Inject, Injectable, NotFoundException } from '@nestjs/common'
 import { REPOSITORIES } from 'src/constants'
 import Product from 'src/entities/product.entity'
 import { Repository } from 'typeorm'
@@ -18,7 +18,7 @@ export class ProductsService {
   async findById(id: number): Promise<Product | null> {
     const product = await this.productRepository.findOneBy({ id })
     if (!product) {
-      throw new HttpException(`Product with id ${id} not found`, HttpStatus.NOT_FOUND)
+      throw new NotFoundException(`Product with id ${id} not found`)
     }
 
     return product
@@ -44,7 +44,7 @@ export class ProductsService {
   async delete(id: number) {
     const product = await this.productRepository.findOneBy({ id })
     if (!product) {
-      throw new HttpException(`Product with id ${id} not found`, HttpStatus.NOT_FOUND)
+      throw new NotFoundException(`Product with id ${id} not found`)
     }
     await this.productRepository.delete(id)
     return product

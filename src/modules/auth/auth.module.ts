@@ -1,4 +1,3 @@
-import 'dotenv/config'
 import { Module } from '@nestjs/common'
 import { JwtModule } from '@nestjs/jwt'
 import { PassportModule } from '@nestjs/passport'
@@ -16,7 +15,7 @@ import { AuthService } from './auth.service'
     PassportModule, // use passport to login email password
     JwtModule.register({
       secret: process.env.JWT_SECRET_KEY,
-      signOptions: { expiresIn: '1h' } // thgian hết hạn
+      signOptions: { expiresIn: process.env.JWT_ACCESS_TOKEN_EXPIRES } // thgian hết hạn
     })
   ]
 })

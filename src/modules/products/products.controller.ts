@@ -14,19 +14,19 @@ export class ProductsController {
   @Get()
   async findAll() {
     const products = await this.productsService.findAll()
-    return new ResponseData(products, HttpStatus.OK, HttpMessage.SUCCESS)
+    return new ResponseData({ data: products, statusCode: HttpStatus.OK, message: HttpMessage.SUCCESS })
   }
 
   @Get('/:id')
   async findById(@Param('id') id: string) {
     try {
       const product = await this.productsService.findById(+id)
-      return new ResponseData(product, HttpStatus.OK, HttpMessage.SUCCESS)
+      return new ResponseData({ data: product, statusCode: HttpStatus.OK, message: HttpMessage.SUCCESS })
     } catch (error) {
       if (error instanceof HttpException) {
-        return new ResponseData(null, error.getStatus(), error.message)
+        return new ResponseData({ data: null, statusCode: error.getStatus(), message: error.message })
       }
-      return new ResponseData(null, HttpStatus.INTERNAL_SERVER_ERROR, HttpMessage.ERROR)
+      return new ResponseData({ data: null, statusCode: HttpStatus.INTERNAL_SERVER_ERROR, message: HttpMessage.ERROR })
     }
   }
 
@@ -44,12 +44,12 @@ export class ProductsController {
   async delete(@Param('id') id: string) {
     try {
       const product = await this.productsService.delete(+id)
-      return new ResponseData(product, HttpStatus.OK, HttpMessage.SUCCESS)
+      return new ResponseData({ data: product, statusCode: HttpStatus.OK, message: HttpMessage.SUCCESS })
     } catch (error) {
       if (error instanceof HttpException) {
-        return new ResponseData(null, error.getStatus(), error.message)
+        return new ResponseData({ data: null, statusCode: error.getStatus(), message: error.message })
       }
-      return new ResponseData(null, HttpStatus.INTERNAL_SERVER_ERROR, HttpMessage.ERROR)
+      return new ResponseData({ data: null, statusCode: HttpStatus.INTERNAL_SERVER_ERROR, message: HttpMessage.ERROR })
     }
   }
 }
